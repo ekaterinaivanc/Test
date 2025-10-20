@@ -26,8 +26,20 @@ void remove (int ** m, size_t rows) {
 }
 
 int ** create (size_t rows, size_t cols) {
-    int ** result = nullptr;
-    
+    //int ** result = nullptr;
+    //result = new int * [rows];
+    int ** result = new int * [rows];
+    size_t i = 0;
+    try {
+        for (; i < rows; ++i){
+            m[i]= new int [cols];
+        }
+    }
+    catch (...) {
+        remove (result, i);
+        throw;
+    }
+    return result;
 }
 
 int main () {
