@@ -5,6 +5,36 @@ void remove (int ** m, size_t rows);
 void input (int ** m, size_t rows, size_t cols);
 void output (const int * const * m, size_t rows, size_t cols);
 
+int ** convert (const int * t, size_t n, const size_t * lns, size_t rows) {
+    if (t == nullptr || lns == nullptr || rows == 0) {
+        return nullptr;
+    }
+    size_t sum = 0;
+    for (size_t i = 0; i < rows; ++i){
+        sum += lns [i];
+    }
+        if (sum != n){
+            return nullptr;
+        }
+        int ** result = new int * [rows];
+        size_t i = 0;
+    size_t c = 0;
+    try {
+        for (size_t i = 0; i < rows; ++i){
+            result [i] = new int [lns [i]];
+            for (size_t j = 0; j < lns[i]; ++j){
+                result [i][j] = t [c++];
+            }
+            n = n - lns[i];
+        }
+        return result;
+    }
+    catch (...) {
+        remove (result, i);
+        throw;
+    }
+}
+
 void input (int ** m, size_t rows, size_t cols) {
     for (size_t i = 0; i < rows && (std::cin); ++i) {
         for (size_t j = 0; j < cols && (std::cin); ++j) {
@@ -14,8 +44,12 @@ void input (int ** m, size_t rows, size_t cols) {
 }
 
 void output (const int * const * m, size_t rows, size_t cols) {
-    std::cout << rows << " " << cols;
-    //
+    for (size_t i = 0; i < rows; ++i) {
+        for (size_t j = 0; j < cols - 1; ++j) {
+            std::cout << m[i][j] << " ";
+        }
+        std::cout << m[i][cols-1] << "\n";
+    }
 }
 
 void remove (int ** m, size_t rows) {
@@ -32,7 +66,7 @@ int ** create (size_t rows, size_t cols) {
     size_t i = 0;
     try {
         for (; i < rows; ++i){
-            m[i]= new int [cols];
+            result[i]= new int [cols];
         }
     }
     catch (...) {
